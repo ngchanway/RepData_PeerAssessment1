@@ -7,17 +7,23 @@ output:
 
 
 ## Loading and preprocessing the data
-```{r}
+```{r echo=TRUE}
 filename <- "activity.csv"
 if(!file.exists(filename)) {
         unzip("activity.zip")
         }
 data <- read.csv(filename)
 data$date <- as.Date(data$date)
+data$hour <- data$interval %/% 100
+data$minute <- data$interval %% 100
+
+library(lubridate)
+data$time <- hm(paste0(data$hour, ":", data$minute))
+data$DateTime <- ymd_hm(paste0(data$date, " ", data$hour, ":", data$minute))
 ```
 
 ## What is mean total number of steps taken per day?
-```{r}
+```{r echo=TRUE}
 steps <- xtabs(steps ~ date, data)
 hist(steps)
 smean <- mean(steps)
@@ -26,8 +32,9 @@ smedian <- median(steps)
 The mean and median of the total number of steps taken per day are `r smean` and `r smedian`, respectively.
 
 ## What is the average daily activity pattern?
-```{r}
-plot()
+```{r echo=TRUE}
+mean_steps <- xtabs(steps ~ interval, data)
+#plot()
 ```
 
 ## Imputing missing values
