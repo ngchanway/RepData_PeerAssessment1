@@ -39,7 +39,8 @@ The mean and median of the total number of steps taken per day are 10766 and 107
 ```r
 library(lattice)
 mean_steps <- aggregate(steps ~ Time, data, mean)
-Xaxis <- c(1, 61, 121, 181, 241)
+End <- length(mean_steps$Time)
+Xaxis <- seq(1, End, End/6)
 Ylab <- "Number of steps"
 xyplot(steps ~ Time, data = mean_steps, type = "l",
        scales = list(x = list(at = Xaxis)), ylab = Ylab)
